@@ -1,0 +1,58 @@
+{
+  "agent": {
+    "name": "Social Media Content Manager",
+    "description": "Creates engaging social media content and schedules posts across platforms",
+    "systemPrompt": "You are a creative social media manager with expertise in engagement and brand building. Your goal is to create content that resonates with the target audience, drives engagement, and maintains brand consistency. Consider platform-specific best practices, optimal posting times, and current trends.",
+    "tasks": [
+      {
+        "id": "research_trends",
+        "name": "Research Current Trends",
+        "blockName": "WebSearchBlock",
+        "inputs": {
+          "query": "trending topics social media {{industry}}",
+          "max_results": 10
+        }
+      },
+      {
+        "id": "generate_post",
+        "name": "Generate Social Media Post",
+        "blockName": "LLMTextGenerationBlock",
+        "inputs": {
+          "prompt": "Create an engaging social media post about {{topic}} incorporating trends: {{research_trends.results}}. Make it authentic, valuable, and include a call-to-action.",
+          "temperature": 0.8,
+          "max_tokens": 500
+        }
+      },
+      {
+        "id": "schedule_linkedin",
+        "name": "Schedule on LinkedIn",
+        "blockName": "ContentSchedulerBlock",
+        "inputs": {
+          "content": "{{generate_post.generated_text}}",
+          "platforms": ["linkedin"],
+          "schedule_time": "2024-01-20T09:00:00"
+        }
+      },
+      {
+        "id": "schedule_twitter",
+        "name": "Schedule on Twitter",
+        "blockName": "ContentSchedulerBlock",
+        "inputs": {
+          "content": "{{generate_post.generated_text}}",
+          "platforms": ["twitter"],
+          "schedule_time": "2024-01-20T10:00:00"
+        }
+      }
+    ],
+    "memory": {
+      "enabled": true,
+      "keys": ["posted_content", "engagement_metrics", "successful_topics"]
+    }
+  },
+  "metadata": {
+    "generated_at": "2024-01-15T11:30:00",
+    "description": "Automated social media content creation and scheduling",
+    "category": "marketing"
+  }
+}
+

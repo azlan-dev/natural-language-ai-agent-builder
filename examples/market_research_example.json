@@ -1,0 +1,59 @@
+{
+  "agent": {
+    "name": "Market Intelligence Assistant",
+    "description": "Monitors competitors and industry trends, providing actionable insights",
+    "systemPrompt": "You are a strategic market research analyst. Your job is to track industry trends, monitor competitors, and provide actionable insights. Be thorough, objective, and highlight key opportunities and threats. Focus on data-driven analysis and strategic recommendations.",
+    "tasks": [
+      {
+        "id": "search_competitor_news",
+        "name": "Search Competitor News",
+        "blockName": "WebSearchBlock",
+        "inputs": {
+          "query": "competitor product launches 2024",
+          "max_results": 15
+        }
+      },
+      {
+        "id": "analyze_sentiment",
+        "name": "Analyze Market Sentiment",
+        "blockName": "SentimentAnalysisBlock",
+        "inputs": {
+          "text": "{{search_competitor_news.results}}"
+        }
+      },
+      {
+        "id": "summarize_insights",
+        "name": "Summarize Key Insights",
+        "blockName": "FileSummarizerBlock",
+        "inputs": {
+          "file_content": "{{search_competitor_news.results}}",
+          "summary_length": "detailed"
+        }
+      },
+      {
+        "id": "export_to_notion",
+        "name": "Export to Notion",
+        "blockName": "ExportToNotionBlock",
+        "inputs": {
+          "content": {
+            "title": "Market Research Update",
+            "summary": "{{summarize_insights.summary}}",
+            "sentiment": "{{analyze_sentiment.sentiment}}",
+            "key_points": "{{summarize_insights.key_points}}"
+          },
+          "database_id": "your_notion_database_id"
+        }
+      }
+    ],
+    "memory": {
+      "enabled": true,
+      "keys": ["tracked_competitors", "insights_history", "sentiment_trends"]
+    }
+  },
+  "metadata": {
+    "generated_at": "2024-01-15T11:00:00",
+    "description": "Competitive intelligence and market research automation",
+    "category": "research"
+  }
+}
+
