@@ -1,0 +1,50 @@
+{
+  "agent": {
+    "name": "Sales Outreach Assistant",
+    "description": "Finds potential customers on LinkedIn and creates personalized outreach emails",
+    "systemPrompt": "You are a professional sales development representative. Your goal is to help find qualified leads and create personalized, compelling outreach messages. Always maintain a professional tone and focus on providing value to prospects. Research each prospect thoroughly before reaching out.",
+    "tasks": [
+      {
+        "id": "search_linkedin",
+        "name": "Search for LinkedIn Profiles",
+        "blockName": "ApolloSearchBlock",
+        "inputs": {
+          "search_criteria": {
+            "title": "CEO",
+            "industry": "Technology",
+            "company_size": "50-200"
+          },
+          "limit": 10
+        }
+      },
+      {
+        "id": "enrich_profiles",
+        "name": "Enrich Profile Data",
+        "blockName": "ProxycurlEnrichmentBlock",
+        "inputs": {
+          "profile_url": "{{search_linkedin.profiles[0].url}}"
+        }
+      },
+      {
+        "id": "draft_email",
+        "name": "Draft Personalized Email",
+        "blockName": "LLMEmailWriterBlock",
+        "inputs": {
+          "recipient_info": "{{enrich_profiles.enriched_data}}",
+          "context": "Introducing our AI-powered sales automation platform that helps companies increase conversion rates by 40%",
+          "tone": "professional"
+        }
+      }
+    ],
+    "memory": {
+      "enabled": true,
+      "keys": ["contacted_profiles", "sent_emails", "responses"]
+    }
+  },
+  "metadata": {
+    "generated_at": "2024-01-15T10:30:00",
+    "description": "Sales outreach agent for B2B SaaS",
+    "category": "sales"
+  }
+}
+

@@ -1,0 +1,148 @@
+{
+  "blocks": [
+    {
+      "id": "web_search",
+      "name": "WebSearchBlock",
+      "description": "Search the web for information using search engines",
+      "category": "data_collection",
+      "inputs": {
+        "query": {"type": "string", "required": true},
+        "max_results": {"type": "integer", "default": 5}
+      },
+      "outputs": {
+        "results": {"type": "array", "items": "object"}
+      },
+      "capabilities": ["search", "web_scraping", "information_retrieval"]
+    },
+    {
+      "id": "llm_text_generation",
+      "name": "LLMTextGenerationBlock",
+      "description": "Generate text using large language models",
+      "category": "generation",
+      "inputs": {
+        "prompt": {"type": "string", "required": true},
+        "temperature": {"type": "float", "default": 0.7},
+        "max_tokens": {"type": "integer", "default": 1000}
+      },
+      "outputs": {
+        "generated_text": {"type": "string"}
+      },
+      "capabilities": ["text_generation", "summarization", "writing"]
+    },
+    {
+      "id": "email_writer",
+      "name": "LLMEmailWriterBlock",
+      "description": "Draft personalized emails using AI",
+      "category": "generation",
+      "inputs": {
+        "recipient_info": {"type": "object", "required": true},
+        "context": {"type": "string", "required": true},
+        "tone": {"type": "string", "default": "professional"}
+      },
+      "outputs": {
+        "email_draft": {"type": "string"}
+      },
+      "capabilities": ["email_writing", "personalization"]
+    },
+    {
+      "id": "linkedin_search",
+      "name": "ApolloSearchBlock",
+      "description": "Search for LinkedIn profiles and company information",
+      "category": "data_collection",
+      "inputs": {
+        "search_criteria": {"type": "object", "required": true},
+        "limit": {"type": "integer", "default": 10}
+      },
+      "outputs": {
+        "profiles": {"type": "array", "items": "object"}
+      },
+      "capabilities": ["linkedin", "lead_generation", "people_search"]
+    },
+    {
+      "id": "profile_enrichment",
+      "name": "ProxycurlEnrichmentBlock",
+      "description": "Enrich profiles with additional data like emails and social links",
+      "category": "enrichment",
+      "inputs": {
+        "profile_url": {"type": "string", "required": true}
+      },
+      "outputs": {
+        "enriched_data": {"type": "object"}
+      },
+      "capabilities": ["enrichment", "email_finding", "data_enhancement"]
+    },
+    {
+      "id": "file_summarizer",
+      "name": "FileSummarizerBlock",
+      "description": "Summarize documents and extract key insights",
+      "category": "processing",
+      "inputs": {
+        "file_content": {"type": "string", "required": true},
+        "summary_length": {"type": "string", "default": "medium"}
+      },
+      "outputs": {
+        "summary": {"type": "string"},
+        "key_points": {"type": "array", "items": "string"}
+      },
+      "capabilities": ["summarization", "document_processing", "analysis"]
+    },
+    {
+      "id": "notion_export",
+      "name": "ExportToNotionBlock",
+      "description": "Export data to Notion pages or databases",
+      "category": "integration",
+      "inputs": {
+        "content": {"type": "object", "required": true},
+        "database_id": {"type": "string", "required": true}
+      },
+      "outputs": {
+        "page_id": {"type": "string"}
+      },
+      "capabilities": ["notion", "export", "data_storage"]
+    },
+    {
+      "id": "data_filter",
+      "name": "DataFilterBlock",
+      "description": "Filter and transform data based on conditions",
+      "category": "processing",
+      "inputs": {
+        "data": {"type": "array", "required": true},
+        "filter_criteria": {"type": "object", "required": true}
+      },
+      "outputs": {
+        "filtered_data": {"type": "array"}
+      },
+      "capabilities": ["filtering", "data_transformation"]
+    },
+    {
+      "id": "scheduler",
+      "name": "ContentSchedulerBlock",
+      "description": "Schedule content for posting to social media platforms",
+      "category": "automation",
+      "inputs": {
+        "content": {"type": "string", "required": true},
+        "platforms": {"type": "array", "required": true},
+        "schedule_time": {"type": "string", "required": true}
+      },
+      "outputs": {
+        "scheduled_id": {"type": "string"}
+      },
+      "capabilities": ["scheduling", "social_media", "automation"]
+    },
+    {
+      "id": "sentiment_analysis",
+      "name": "SentimentAnalysisBlock",
+      "description": "Analyze sentiment and emotions in text",
+      "category": "analysis",
+      "inputs": {
+        "text": {"type": "string", "required": true}
+      },
+      "outputs": {
+        "sentiment": {"type": "string"},
+        "confidence": {"type": "float"}
+      },
+      "capabilities": ["sentiment_analysis", "nlp", "analysis"]
+    }
+  ]
+}
+

@@ -1,0 +1,110 @@
+{
+  "templates": [
+    {
+      "id": "sales_outreach",
+      "name": "Sales Outreach Agent",
+      "description": "Finds prospects and drafts personalized cold emails",
+      "keywords": ["sales", "outreach", "email", "linkedin", "cold email"],
+      "agent_config": {
+        "name": "Sales Outreach Assistant",
+        "description": "An agent that finds potential customers and creates personalized outreach emails",
+        "systemPrompt": "You are a professional sales development representative. Your goal is to help find qualified leads and create personalized, compelling outreach messages. Always maintain a professional tone and focus on providing value to prospects.",
+        "tasks": [
+          {
+            "id": "search_linkedin",
+            "name": "Search for LinkedIn Profiles",
+            "blockName": "ApolloSearchBlock",
+            "inputs": {"search_criteria": "{{search_criteria}}", "limit": 10}
+          },
+          {
+            "id": "enrich_profiles",
+            "name": "Enrich Profile Data",
+            "blockName": "ProxycurlEnrichmentBlock",
+            "inputs": {"profile_url": "{{search_linkedin.profiles[0].url}}"}
+          },
+          {
+            "id": "draft_email",
+            "name": "Draft Personalized Email",
+            "blockName": "LLMEmailWriterBlock",
+            "inputs": {
+              "recipient_info": "{{enrich_profiles.enriched_data}}",
+              "context": "{{email_context}}",
+              "tone": "professional"
+            }
+          }
+        ],
+        "memory": {"enabled": true, "keys": ["profiles", "sent_emails"]}
+      }
+    },
+    {
+      "id": "market_research",
+      "name": "Market Research Agent",
+      "description": "Tracks competitor news and stores insights in Notion",
+      "keywords": ["market", "research", "competitor", "analysis", "notion"],
+      "agent_config": {
+        "name": "Market Research Assistant",
+        "description": "An agent that monitors competitors and summarizes market insights",
+        "systemPrompt": "You are a strategic market research analyst. Your job is to track industry trends, monitor competitors, and provide actionable insights. Be thorough, objective, and highlight key opportunities and threats.",
+        "tasks": [
+          {
+            "id": "search_news",
+            "name": "Search Competitor News",
+            "blockName": "WebSearchBlock",
+            "inputs": {"query": "{{competitor_name}} news", "max_results": 10}
+          },
+          {
+            "id": "summarize_findings",
+            "name": "Summarize Insights",
+            "blockName": "FileSummarizerBlock",
+            "inputs": {"file_content": "{{search_news.results}}", "summary_length": "medium"}
+          },
+          {
+            "id": "export_notion",
+            "name": "Export to Notion",
+            "blockName": "ExportToNotionBlock",
+            "inputs": {
+              "content": "{{summarize_findings}}",
+              "database_id": "{{notion_database_id}}"
+            }
+          }
+        ],
+        "memory": {"enabled": true, "keys": ["tracked_competitors", "insights_history"]}
+      }
+    },
+    {
+      "id": "content_scheduler",
+      "name": "Social Media Content Scheduler",
+      "description": "Generates and schedules content for social media platforms",
+      "keywords": ["social media", "content", "scheduler", "linkedin", "twitter"],
+      "agent_config": {
+        "name": "Social Media Manager",
+        "description": "An agent that creates and schedules engaging social media content",
+        "systemPrompt": "You are a creative social media manager. Your goal is to create engaging, on-brand content that resonates with the target audience. Consider platform-specific best practices and optimal posting times.",
+        "tasks": [
+          {
+            "id": "generate_content",
+            "name": "Generate Social Media Post",
+            "blockName": "LLMTextGenerationBlock",
+            "inputs": {
+              "prompt": "Create an engaging social media post about: {{topic}}",
+              "temperature": 0.8,
+              "max_tokens": 500
+            }
+          },
+          {
+            "id": "schedule_post",
+            "name": "Schedule Post",
+            "blockName": "ContentSchedulerBlock",
+            "inputs": {
+              "content": "{{generate_content.generated_text}}",
+              "platforms": ["linkedin", "twitter"],
+              "schedule_time": "{{schedule_time}}"
+            }
+          }
+        ],
+        "memory": {"enabled": true, "keys": ["posted_content", "engagement_metrics"]}
+      }
+    }
+  ]
+}
+
